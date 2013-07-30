@@ -1,6 +1,8 @@
 package com.mcode.mcontroller.core;
 
-import org.jeromq.ZMQ;
+import java.io.IOException;
+
+import network.multicast.Publisher;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -9,11 +11,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MController implements ApplicationListener {
-	ZMQ.Context ctx = ZMQ.context();
-	ZMQ.Socket pub  = ctx.socket(ZMQ.PUB);
 	
-	Texture texture;
-	SpriteBatch batch;
+	private Publisher pub;
+	
+	
+	private Texture texture;
+	private SpriteBatch batch;
 	float elapsed;
 	
 	@Override
@@ -21,13 +24,21 @@ public class MController implements ApplicationListener {
 		texture = new Texture(Gdx.files.internal("libgdx-logo.png"));
 		batch = new SpriteBatch();
 		
-		pub.bind("tcp://*:2222");
+		try {
+			pub = new Publisher("239.192.1.1", 2222, 1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void resize (int width, int height) {
-		pub.send(new byte[]{0}, ZMQ.SNDMORE);
-		pub.send(new byte[]{0}, 0);
+		try {
+			pub.publish(new byte[]{1});
+		} catch (IOException e) {
+			System.out.println("error publishing");
+		}
 		System.out.println("sending");
 	}
 
