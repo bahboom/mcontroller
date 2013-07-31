@@ -1,4 +1,4 @@
-package com.mcode.mcontroller.java;
+package com.mcode.mcontroller.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
