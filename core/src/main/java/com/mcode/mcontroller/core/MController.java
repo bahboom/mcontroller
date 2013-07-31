@@ -7,7 +7,7 @@ import network.multicast.Publisher;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.mcode.mcontroller.core.configs.MulticastConfig;
-import com.mcode.mcontroller.core.events.ControlEvent;
+import com.mcode.mcontroller.core.events.KeyPressDescription;
 import com.mcode.mcontroller.core.screens.ArcadeStickScreen;
 
 public class MController extends Game {
@@ -24,11 +24,11 @@ public class MController extends Game {
 		setScreen(new ArcadeStickScreen(this));
 	}
 	
-	public void sendControlEvent(ControlEvent event) {
+	public void sendKeyPressDescription(KeyPressDescription description) {
 		try {
-			pub.publish(event.getBytes());
+			pub.publish(description.getBytes());
 		} catch (IOException e) {
-			Gdx.app.error(TAG, "Error sending control event", e);
+			Gdx.app.error(TAG, "Error sending KeyPressDescription", e);
 		}
 	}
 

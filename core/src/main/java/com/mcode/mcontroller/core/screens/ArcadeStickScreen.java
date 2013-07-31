@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcode.mcontroller.core.MController;
-import com.mcode.mcontroller.core.events.ControlEvent;
+import com.mcode.mcontroller.core.events.KeyPressDescription;
 
 public class ArcadeStickScreen implements Screen {
 	private MController parent;
@@ -82,13 +82,14 @@ public class ArcadeStickScreen implements Screen {
 
 		@Override
 		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-			parent.sendControlEvent(new ControlEvent(0));
+			parent.sendKeyPressDescription(new KeyPressDescription(true));
 			return true;
 		}
 
 		@Override
 		public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-			return false;
+			parent.sendKeyPressDescription(new KeyPressDescription(false));
+			return true;
 		}
 
 		@Override
