@@ -21,7 +21,7 @@ public class MControllerHost implements MessageListener {
 	}
 	
 	@Override
-	public void messageReceived(String group, int port, byte[] data) {
+	public void messageReceived(byte[] data) {
 		if(data[0] == 1) { 
 			r.keyPress(KeyEvent.VK_UP);
 			System.out.println("keypressed");
