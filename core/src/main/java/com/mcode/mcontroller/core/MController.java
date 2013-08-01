@@ -1,6 +1,7 @@
 package com.mcode.mcontroller.core;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 import network.multicast.Publisher;
 
@@ -19,7 +20,7 @@ public class MController extends Game {
 		try {
 			pub = new Publisher(MulticastConfig.GROUP, MulticastConfig.PORT, MulticastConfig.TTL);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Gdx.app.error(TAG, "Error instantiating publisher", e);
 		}
 		setScreen(new ArcadeStickScreen(this));
 	}
@@ -27,6 +28,7 @@ public class MController extends Game {
 	public void sendKeyPressDescription(KeyPressDescription description) {
 		try {
 			pub.publish(description.getBytes());
+			Gdx.app.log(TAG, "Sending KeyPressDescription : " + InetAddress.getLocalHost().getHostAddress());
 		} catch (IOException e) {
 			Gdx.app.error(TAG, "Error sending KeyPressDescription", e);
 		}

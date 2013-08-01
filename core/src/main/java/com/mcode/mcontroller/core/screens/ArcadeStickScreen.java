@@ -25,9 +25,9 @@ public class ArcadeStickScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(buttonSprites[0], 0, 0);
-		batch.end();
+//		batch.begin();
+//		batch.draw(buttonSprites[0], 0, 0);
+//		batch.end();
 	}
 
 	@Override
@@ -36,12 +36,12 @@ public class ArcadeStickScreen implements Screen {
 
 	@Override
 	public void show() {
-		buttonTexture = new Texture(Gdx.files.internal("libgdx-logo.png"));
-		buttonSprites = new Sprite[6];
-		for(int i = 0; i < 6; i++) {
-			buttonSprites[i] = new Sprite(buttonTexture);
-		}
-		batch = new SpriteBatch();
+//		buttonTexture = new Texture(Gdx.files.internal("libgdx-logo.png"));
+//		buttonSprites = new Sprite[6];
+//		for(int i = 0; i < 6; i++) {
+//			buttonSprites[i] = new Sprite(buttonTexture);
+//		}
+//		batch = new SpriteBatch();
 		
 		Gdx.input.setInputProcessor(new ArcadeStickInputProcessor());
 	}
