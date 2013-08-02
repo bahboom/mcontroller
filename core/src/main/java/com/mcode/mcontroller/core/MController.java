@@ -34,4 +34,13 @@ public class MController extends Game {
 		}
 	}
 
+	public void sendKeyBytes(byte[] byteArray) {
+		try {
+			pub.publish(byteArray);
+		} catch (IOException e) {
+			Gdx.app.error(TAG, "Error sending bytes", e);
+		}
+		
+	}
+
 }
