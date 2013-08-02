@@ -13,7 +13,7 @@ import com.mcode.mjl.util.BitFlags;
 public class MControllerHost implements MessageListener {
 	private static final String TAG = "MControllerHost";
 	
-	private BitFlags lastConfig = null;
+	private BitFlags lastConfig = new BitFlags(1);
 	private Robot r;
 	private MControllerHost() throws AWTException {
 		r = new Robot();
@@ -23,24 +23,40 @@ public class MControllerHost implements MessageListener {
 		sub.subscribe(MulticastConfig.GROUP, MulticastConfig.PORT, new MControllerHost());
 	}
 	
+	private int getKey(int num) {
+		switch(num) {
+		case 0:
+			return KeyEvent.VK_1;
+		case 1:
+			return KeyEvent.VK_2;
+		case 2:
+			return KeyEvent.VK_3;
+		case 3:
+			return KeyEvent.VK_Q;
+		case 4:
+			return KeyEvent.VK_W;
+		case 5:
+			return KeyEvent.VK_E;
+		}
+		return KeyEvent.VK_0;
+	}
+	
 	@Override
 	public void messageReceived(byte[] data) {
+		System.out.println("recv");
 		BitFlags config = new BitFlags(data);
 		
-		if(config.get(0)) { 
-			r.keyPress(KeyEvent.VK_UP);
-			System.out.println("keypressed");
-		} else {
-			r.keyRelease(KeyEvent.VK_UP);
-			System.out.println("keyreleased");
+		for(int i = 0; i < 6; i++) {
+			if(config.get(i) != lastConfig.get(i)) {
+				if(config.get(i)) {
+					r.keyPress(getKey(i));
+					System.out.println("press");
+				} else {
+					r.keyRelease(getKey(i));
+					System.out.println("release");
+				}
+			}
 		}
-		if(config.get(1)) { 
-			r.keyPress(KeyEvent.VK_DOWN);
-			System.out.println("keypressed");
-		} else {
-			r.keyRelease(KeyEvent.VK_DOWN);
-			System.out.println("keyreleased");
-		}
-		//Gdx.app.log(TAG, "Message Received");
+		lastConfig = config;
 	}
 }
