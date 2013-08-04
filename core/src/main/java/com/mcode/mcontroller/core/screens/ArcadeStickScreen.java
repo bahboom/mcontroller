@@ -2,7 +2,9 @@ package com.mcode.mcontroller.core.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,20 +15,50 @@ public class ArcadeStickScreen implements Screen {
 	private MController parent;
 	
 	private Texture buttonTexture;
-	private Sprite[] buttonSprites;
+	private Texture stickTexture;
+	private Pixmap buttonPixmap;
+	private Pixmap stickPixmap;
+	private Sprite buttonSprite;
+	private Sprite stickSprite;
 	private SpriteBatch batch;
 
+	private int buttonWidth;
+	private int buttonHeight;
+	
 	public ArcadeStickScreen(MController parent) {
 		this.parent = parent;
+		
+		buttonWidth = Gdx.graphics.getWidth() / 3;
+		buttonHeight = Gdx.graphics.getHeight() / 2;
+		
+		buttonPixmap = new Pixmap(buttonWidth, buttonHeight, Pixmap.Format.RGB888);
+		buttonPixmap.setColor(Color.CYAN);
+		buttonPixmap.fillRectangle(0, 0, buttonWidth, buttonHeight);
+		buttonPixmap.setColor(Color.BLUE);
+		buttonPixmap.drawRectangle(0, 0, buttonWidth, buttonHeight);
+		buttonTexture = new Texture(buttonPixmap);
+		buttonSprite = new Sprite(buttonTexture);
+		
+		stickPixmap = new Pixmap(200, 200, Pixmap.Format.RGB888);
+		stickPixmap.setColor(Color.CYAN);
+		stickPixmap.fillCircle(100, 100, 100);
+		stickTexture = new Texture(stickPixmap);
+		stickSprite = new Sprite(stickTexture);
+		
+		//stickSprite.
+		
+		batch = new SpriteBatch();
 	}
 	
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(.9f, .1f, .2f, 0);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-//		batch.begin();
-//		batch.draw(buttonSprites[0], 0, 0);
-//		batch.end();
+		batch.begin();
+		batch.draw(buttonSprite, 0, 0);
+		//batch.draw(buttonSprite, 100, 100);
+		batch.draw(stickSprite, 300, 300);
+		batch.end();
 	}
 
 	@Override
@@ -35,31 +67,20 @@ public class ArcadeStickScreen implements Screen {
 
 	@Override
 	public void show() {
-		//buttonTexture = new Texture(Gdx.files.internal("libgdx-logo.png"));
-//		buttonSprites = new Sprite[6];
-//		for(int i = 0; i < 6; i++) {
-//			buttonSprites[i] = new Sprite();
-//			buttonSprites[i].setColor(1, 1, 0, 1);
-//		}
-//		batch = new SpriteBatch();
-//		
-//		Gdx.input.setInputProcessor(new ArcadeStickInputProcessor());
-//		Gdx.input.getX
-		
 		Thread keypressListeningThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				BitFlags lastConfig = new BitFlags(1);
 				while(!Thread.currentThread().isInterrupted()) {
-					if(Gdx.input.isTouched()) {
+					if(true) {
 						int width = Gdx.graphics.getWidth() / 3;
 						int height = Gdx.graphics.getHeight() / 2;
 						
 						BitFlags config = new BitFlags(1);
-						for(int i = 0; i < 10; i++) {
+						for(int i = 0; i < 2; i++) {
 							int x = Gdx.input.getX(i);
 							int y = Gdx.input.getY(i);
-							if(x == 0  && y == 0) {
+							if(x == 0  && y == 0 || !Gdx.input.isTouched(i)) {
 								continue;
 							}
 							
@@ -86,12 +107,11 @@ public class ArcadeStickScreen implements Screen {
 							if(x > width * 2 && x < width * 3 && y > height && y < height * 2) {
 								config.set(5);
 								System.out.println("bottom right");
-							}
+							}				
 						}
-						
 						if(!config.equals(lastConfig)) {
 							parent.sendKeyBytes(config.getBytes());
-							//config.
+							System.out.println("Sending");
 						}
 						lastConfig = config;
 					}
@@ -104,8 +124,7 @@ public class ArcadeStickScreen implements Screen {
 					}
 				}
 			}
-			
-		});
+		}); 
 
 		keypressListeningThread.start();
 	}
