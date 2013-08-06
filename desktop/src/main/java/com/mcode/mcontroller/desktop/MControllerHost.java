@@ -20,7 +20,7 @@ public class MControllerHost implements MessageListener {
 	}
 	public static void main(String[] args) throws Exception {
 		Subscriber sub = new Subscriber();
-		sub.subscribe(MulticastConfig.GROUP, MulticastConfig.PORT, new MControllerHost());
+		sub.subscribe(new MControllerHost());
 	}
 	
 	private int getKey(int num) {

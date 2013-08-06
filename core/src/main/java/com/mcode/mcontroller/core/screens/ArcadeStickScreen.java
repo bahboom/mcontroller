@@ -131,7 +131,6 @@ public class ArcadeStickScreen implements Screen {
 
 	@Override
 	public void hide() {
-		// some clean up..
 	}
 
 	@Override
