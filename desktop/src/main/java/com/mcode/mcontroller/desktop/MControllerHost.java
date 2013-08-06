@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import network.multicast.MessageListener;
 import network.multicast.Subscriber;
 
-import com.mcode.mcontroller.core.configs.MulticastConfig;
 import com.mcode.mjl.util.BitFlags;
 
 public class MControllerHost implements MessageListener {

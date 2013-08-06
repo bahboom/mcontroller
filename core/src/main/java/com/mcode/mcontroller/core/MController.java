@@ -6,7 +6,6 @@ import network.multicast.Publisher;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.mcode.mcontroller.core.configs.MulticastConfig;
 import com.mcode.mcontroller.core.screens.MainControlScreen;
 
 public class MController extends Game {
